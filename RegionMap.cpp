@@ -30,10 +30,16 @@ void RegionMap::_generateMap()
         _regions[i] = Region(x, y, i+1);
         _worldMap[x][y] = MapPoint(x, y, &_regions[i]);
     }
-
+    sf::Clock clock;
+    std::cout << "Starting map generation... ";
     generateMap(_regions, _worldMap, 80);
+    std::cout << clock.restart().asMilliseconds() << "ms" << std::endl;
 
+    std::cout << "Starting borders detection..." << std::endl;
     _computeBorders();
+    std::cout << "Starting route construction..." << std::endl;
+    _computeRoutes();
+    std::cout << "DONE." << std::endl;
 }
 
 void RegionMap::_computeBorders()
@@ -46,70 +52,18 @@ void RegionMap::_computeBorders()
 
 void RegionMap::_computeRoutes()
 {
-
+    for (auto& region1 : _regions)
+    {
+        for (auto& region2 : region1.neighbors())
+        {
+            _abstractMap.addConnection(&region1, region2);
+        }
+    }
 }
-
 
 std::vector<Region*> RegionMap::getRoute(Region* region1, Region* region2)
 {
-    std::vector<Region*> path;
-
-    if (!region2 || !region1)
-        return path;
-
-    for (auto& region : _regions)
-    {
-        region.marked = false;
-        region.dist   = -1;
-        region.last   = nullptr;
-    }
-
-    region1->dist = 0;
-    Region* currentRegion = region1;
-
-    while (!region2->marked)
-    {
-        for (auto& region : currentRegion->neighbors())
-        {
-            if (!region->marked)
-            {
-                double vx = currentRegion->capital()._x-region->capital()._x;
-                double vy = currentRegion->capital()._y-region->capital()._y;
-
-                double dist = currentRegion->dist + sqrt(vx*vx+vy*vy);
-
-                if (dist < region->dist || region->dist == -1)
-                {
-                    region->dist = dist;
-                    region->last = currentRegion;
-                }
-            }
-        }
-
-        currentRegion->marked = true;
-        double minDist = -1;
-        for (auto& region : _regions)
-        {
-            if (!region.marked && region.dist > -1)
-            {
-                if (minDist == -1 || region.dist < minDist)
-                {
-                    minDist = region.dist;
-                    currentRegion = &region;
-                }
-            }
-        }
-    }
-
-    Region* reversePathRegion = region2;
-
-    while (reversePathRegion)
-    {
-        path.push_back(reversePathRegion);
-        reversePathRegion = reversePathRegion->last;
-    }
-
-    return path;
+    return _abstractMap.getPath(region1, region2);
 }
 
 Region* RegionMap::getRegionAt(unsigned int x, unsigned int y) const

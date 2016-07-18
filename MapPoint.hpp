@@ -10,8 +10,9 @@ struct MapPoint
 
     unsigned int id() const;
 
-    int _x;
-    int _y;
+    int    _x;
+    int    _y;
+    double _capitalAngle;
     unsigned int _type;
 
     Region* _owner;

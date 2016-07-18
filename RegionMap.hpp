@@ -6,6 +6,7 @@
 
 #include "Region.hpp"
 #include "MapPoint.hpp"
+#include "Graph.hpp"
 #include "utils.hpp"
 
 class RegionMap
@@ -26,6 +27,8 @@ private:
 
     std::vector<Region> _regions;
     std::vector<std::vector<MapPoint>> _worldMap;
+
+    Graph _abstractMap;
 
     void _generateMap();
     void _computeBorders();

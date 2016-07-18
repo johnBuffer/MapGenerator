@@ -1,4 +1,5 @@
 #include "Region.hpp"
+#include <iostream>
 
 Region::Region(unsigned int id) :
     _id(id)
@@ -9,7 +10,7 @@ Region::Region(unsigned int id) :
 Region::Region(unsigned int x, unsigned int y, unsigned int id) :
     _id(id)
 {
-    _points.push_back(MapPoint(x, y, this));
+    addPoint(x, y);
 }
 
 void Region::addPoint(unsigned int x, unsigned int y)

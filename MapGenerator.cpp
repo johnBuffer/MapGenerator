@@ -12,6 +12,7 @@ IterationResult stagger(std::vector<Region>& regions, std::vector<std::vector<Ma
 
     for (auto& region : regions)
     {
+        region.computeBorderPoints(pMap);
         for (auto& point : region.points())
         {
             unsigned int x = point._x;

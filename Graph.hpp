@@ -2,6 +2,7 @@
 #define GRAPH_HPP_INCLUDED
 
 #include <list>
+#include <map>
 #include "Region.hpp"
 
 struct Node
@@ -16,6 +17,7 @@ struct Node
     Node(Region* arg_region) : region(arg_region) {}
 
     void addNeighbour(Node* node);
+    double distToNode(Node* node);
 };
 
 class Graph
@@ -28,6 +30,10 @@ public:
 
 private:
     std::list<Node> _nodes;
+    std::map<Node*, Region*> _pairs;
+    std::map<Region*, Node*> _reversePairs;
+
+    void checkRegionRegistration(Region* region);
 };
 
 #endif // GRAPH_HPP_INCLUDED
