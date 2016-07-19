@@ -82,7 +82,7 @@ Region* RegionMap::getRegionAt(unsigned int x, unsigned int y) const
     return nullptr;
 }
 
-void RegionMap::render(sf::RenderTarget* target) const
+void RegionMap::render(sf::RenderTarget* target, sf::Transform slide) const
 {
     sf::VertexArray routes(sf::Lines, 0);
     for (auto& region : _regions)
@@ -128,7 +128,7 @@ void RegionMap::render(sf::RenderTarget* target) const
         }
     }
 
-    target->draw(map);
+    target->draw(map, slide);
 
     //target->draw(routes);
 
@@ -140,6 +140,6 @@ void RegionMap::render(sf::RenderTarget* target) const
         capital.setOrigin(4, 4);
         capital.setFillColor(sf::Color::Red);
         capital.setPosition(region.capital()._x, region.capital()._y);
-        target->draw(capital);
+        target->draw(capital, slide);
     }
 }

@@ -15,7 +15,7 @@ public:
     RegionMap();
     RegionMap(unsigned int regions, unsigned int sharpness);
 
-    void render(sf::RenderTarget* target) const;
+    void render(sf::RenderTarget* target, sf::Transform slide) const;
 
     std::vector<Region*> getRoute    (Region* region1, Region* region2);
     Region*              getRegionAt (unsigned int x, unsigned int y) const;

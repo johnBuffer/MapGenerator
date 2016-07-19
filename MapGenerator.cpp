@@ -1,13 +1,5 @@
 #include "MapGenerator.hpp"
 
-int mod(int a, int b)
-{
-    if (a>=0)
-        return a%b;
-
-    return a+b;
-}
-
 IterationResult stagger(std::vector<Region>& regions, std::vector<std::vector<MapPoint>>& pMap, int sharpness)
 {
     IterationResult result;

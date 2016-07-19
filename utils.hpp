@@ -6,16 +6,7 @@
 #include "Region.hpp"
 
 bool isOK(int percent);
-
-struct DijkstraPoint
-{
-    const Region* region;
-    double dist;
-    bool   marked;
-
-    DijkstraPoint() : region(nullptr) {}
-    DijkstraPoint(const Region* r, double arg_dist=-1) : region(r), dist(arg_dist), marked(false) {}
-};
+int mod(int a, int b);
 
 struct RegionPoint
 {

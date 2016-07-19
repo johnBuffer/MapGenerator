@@ -18,6 +18,11 @@ int main()
     Region *region1(nullptr), *region2(nullptr);
     std::vector<Region*> path;
 
+    double offsetX = 0;
+    sf::Vector2i clicPos;
+
+    sf::Transform slide, loopSlide;
+
     while (window.isOpen())
     {
         sf::Vector2i localPosition = sf::Mouse::getPosition(window);
@@ -26,12 +31,29 @@ int main()
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
+            {
                 window.close();
+            }
+            else if (event.type == sf::Event::MouseButtonPressed)
+            {
+                clicPos = localPosition;
+            }
         }
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
             region1 = world.getRegionAt(localPosition.x, localPosition.y);
+
+            int move = localPosition.x-clicPos.x;
+            offsetX += move;
+            slide.translate(sf::Vector2f(move, 0));
+
+            if (offsetX > 0)
+                loopSlide.translate(sf::Vector2f(move-WIDTH, 0));
+            else
+                loopSlide.translate(sf::Vector2f(move+WIDTH, 0));
+
+            clicPos = localPosition;
         }
 
         Region* newRegion2 = world.getRegionAt(localPosition.x, localPosition.y);
@@ -65,9 +87,10 @@ int main()
 
         window.clear(sf::Color::White);
 
-        world.render(&window);
+        world.render(&window, slide);
 
-        window.draw(routes);
+        window.draw(routes, slide);
+        window.draw(routes, loopSlide);
 
         window.display();
     }
