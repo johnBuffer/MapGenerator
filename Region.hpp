@@ -4,6 +4,7 @@
 #include "MapPoint.hpp"
 #include <vector>
 #include <list>
+#include <SFML/Graphics.hpp>
 
 class Region
 {
@@ -20,10 +21,13 @@ public:
     void addNeighbour(Region*);
     void computeBorderPoints(std::vector<std::vector<MapPoint>>& pMap);
 
+    void render(sf::RenderTarget* target) const;
+
 private:
     unsigned int _id;
 
     std::vector<MapPoint> _points;
+    std::vector<MapPoint> _borderPoints;
     std::vector<Region*>  _neighbors;
 };
 

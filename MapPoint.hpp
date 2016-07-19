@@ -7,6 +7,9 @@ struct MapPoint
 {
     MapPoint();
     MapPoint(unsigned int x, unsigned int y, Region* owner);
+    void computeAngle();
+
+    static bool compAngle(const MapPoint& mp1, const MapPoint& mp2);
 
     unsigned int id() const;
 

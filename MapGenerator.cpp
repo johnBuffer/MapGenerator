@@ -1,5 +1,13 @@
 #include "MapGenerator.hpp"
 
+int mod(int a, int b)
+{
+    if (a>=0)
+        return a%b;
+
+    return a+b;
+}
+
 IterationResult stagger(std::vector<Region>& regions, std::vector<std::vector<MapPoint>>& pMap, int sharpness)
 {
     IterationResult result;
@@ -12,7 +20,6 @@ IterationResult stagger(std::vector<Region>& regions, std::vector<std::vector<Ma
 
     for (auto& region : regions)
     {
-        region.computeBorderPoints(pMap);
         for (auto& point : region.points())
         {
             unsigned int x = point._x;
@@ -26,7 +33,6 @@ IterationResult stagger(std::vector<Region>& regions, std::vector<std::vector<Ma
                     result.addRP(x+1, y, &region);
                     pMap[x+1][y]._owner = &region;
                 }
-
                 else if (!pMap[x-1][y].id() && isOK(sharpness))
                 {
                     result.changes++;

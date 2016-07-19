@@ -18,6 +18,14 @@ RegionMap::RegionMap(unsigned int regions, unsigned int sharpness)
     _worldMap.resize(_WIDTH);
     for (auto& v : _worldMap) v.resize(_HEIGHT);
 
+    for (unsigned int x(0); x<_WIDTH; ++x)
+    {
+        for (unsigned int y(0); y<_HEIGHT; ++y)
+        {
+            _worldMap[x][y] = MapPoint(x, y, nullptr);
+        }
+    }
+
     _generateMap();
 }
 
@@ -109,17 +117,25 @@ void RegionMap::render(sf::RenderTarget* target) const
             {
                 sf::Vertex vert;
                 vert.position = sf::Vector2f(x, y);
-                vert.color    = sf::Color(0, 0, 0);
+
+                srand(owner);
+
+                //double color = rand()%255;
+                //vert.color = sf::Color(color, rand()%255, rand()%255);
+                vert.color = sf::Color::Black;
                 map.append(vert);
             }
         }
     }
 
     target->draw(map);
+
     //target->draw(routes);
 
     for (auto& region : _regions)
     {
+        //region.render(target);
+
         sf::CircleShape capital(4);
         capital.setOrigin(4, 4);
         capital.setFillColor(sf::Color::Red);
